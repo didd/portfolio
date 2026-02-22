@@ -4,8 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useSyncExternalStore,
 } from "react";
 
 type Theme = "light" | "dark";
@@ -17,42 +16,64 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "light";
+
+  const stored = localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+
+  const hour = new Date().getHours();
+  if (hour >= 18 || hour < 6) return "dark";
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  localStorage.setItem("theme", theme);
+}
+
+let currentTheme: Theme = "light";
+const listeners = new Set<() => void>();
+
+function initTheme() {
+  if (typeof window === "undefined") return;
+  currentTheme = getInitialTheme();
+  applyTheme(currentTheme);
+}
+
+function setTheme(theme: Theme) {
+  currentTheme = theme;
+  applyTheme(theme);
+  listeners.forEach((l) => l());
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function getSnapshot() {
+  return currentTheme;
+}
+
+function getServerSnapshot(): Theme {
+  return "light";
+}
+
+initTheme();
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme") as Theme | null;
-
-    if (stored === "light" || stored === "dark") {
-      setTheme(stored);
-    }
-
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme, mounted]);
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setTheme(currentTheme === "dark" ? "light" : "dark");
   }, []);
 
   return (
-    <ThemeContext.Provider
-      value={{
-        theme,
-        toggleTheme,
-      }}
-    >
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

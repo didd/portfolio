@@ -1,4 +1,5 @@
 import { Tag } from "@/components/ui/tag";
+import { ArrowUpRight } from "lucide-react";
 
 const contactRows = [
   {
@@ -45,7 +46,10 @@ export function Contact() {
             id="contact-heading"
             className="font-serif text-[clamp(1.8rem,3vw,2.75rem)] leading-[1.1] tracking-tight"
           >
-            Ready when <em className="italic text-p-accent">you are</em>
+            <span className="whitespace-nowrap">Ready when</span>{" "}
+            <span className="block sm:inline">
+              <em className="italic text-p-accent">you are</em>
+            </span>
           </h2>
         </div>
       </div>
@@ -56,6 +60,7 @@ export function Contact() {
           <h3 className="font-serif text-[clamp(1.8rem,3vw,2.75rem)] leading-[1.1] tracking-tight mb-5">
             Get in <em className="italic text-p-accent">touch</em>
           </h3>
+
           <p className="text-[0.95rem] text-p-text2 leading-[1.75] mb-10">
             I&apos;m open to senior frontend and full-stack contract or
             full-time roles, particularly with teams building complex React
@@ -65,7 +70,7 @@ export function Contact() {
 
           <dl
             aria-label="Contact information"
-            className="flex flex-col gap-px bg-p-border border border-p-border"
+            className="flex flex-col gap-px bg-p-border border border-p-border rounded-2xl lg:rounded-none overflow-hidden"
           >
             {contactRows.map((row) => {
               const isExternal = row.href?.startsWith("http");
@@ -73,11 +78,12 @@ export function Contact() {
               return (
                 <div
                   key={row.label}
-                  className="flex items-center px-5 py-[1.1rem] bg-p-bg2 gap-4"
+                  className="group flex items-center px-5 py-[1.1rem] bg-p-bg2 gap-4 hover:bg-p-bg3 transition-colors duration-200"
                 >
                   <dt className="text-[0.62rem] font-semibold tracking-widest uppercase text-p-text3 min-w-18">
                     {row.label}
                   </dt>
+
                   <dd className="text-[0.85rem] text-p-text flex-1 m-0">
                     {row.href ? (
                       <a
@@ -97,11 +103,28 @@ export function Contact() {
                       row.value
                     )}
                   </dd>
+
                   <span
                     aria-hidden="true"
-                    className="text-[0.9rem] text-p-accent"
+                    className="text-p-accent flex items-center"
                   >
-                    {row.href ? "↗" : "—"}
+                    {row.href ? (
+                      <a
+                        href={row.href}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        aria-label={
+                          isExternal
+                            ? `Open ${row.label}: ${row.value} (opens in new tab)`
+                            : `Open ${row.label}: ${row.value}`
+                        }
+                        className="inline-flex items-center justify-center rounded-md p-1 hover:bg-p-accent/10 transition-colors duration-200"
+                      >
+                        <ArrowUpRight className="size-4 opacity-80 group-hover:opacity-100 transition-opacity" />
+                      </a>
+                    ) : (
+                      <span className="text-p-text3">—</span>
+                    )}
                   </span>
                 </div>
               );
@@ -114,6 +137,7 @@ export function Contact() {
           <h3 className="font-serif text-[1.75rem] text-p-text mb-4 leading-[1.2]">
             What I&apos;m looking for
           </h3>
+
           <p className="text-[0.88rem] text-p-text2 leading-[1.75] mb-8">
             Senior Frontend or Full Stack Engineer roles on teams that care
             about code quality, accessibility, and performance. I thrive in
@@ -121,6 +145,7 @@ export function Contact() {
             execution, and have a track record of mentoring and cross-functional
             collaboration.
           </p>
+
           <ul
             role="list"
             aria-label="Work preferences"

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Globe } from "./globe";
 
 const metrics = [
   {
@@ -39,14 +40,14 @@ export function Hero() {
 
         <h1
           id="hero-heading"
-          className="animate-fade-up animate-fade-up-2 font-serif text-[clamp(3rem,5.5vw,5rem)] leading-none tracking-tight mb-6"
+          className="animate-fade-up animate-fade-up-2 font-sans text-[clamp(3rem,5.5vw,5rem)] font-bold leading-none tracking-tight mb-3"
         >
-          Senior
-          <br />
-          Frontend
-          <br />
-          <em className="italic text-p-accent">Engineer</em>
+          Didd Tuni
         </h1>
+
+        <h2 className="animate-fade-up animate-fade-up-2 font-mono text-[clamp(1.1rem,1.8vw,1.4rem)] text-p-text2 tracking-[0.04em] mb-8">
+          Senior Frontend Engineer
+        </h2>
 
         <p className="animate-fade-up animate-fade-up-3 text-base text-p-text2 max-w-120 leading-[1.75] mb-10">
           15 years building high-performance React/TypeScript applications
@@ -60,7 +61,8 @@ export function Hero() {
           <strong className="text-p-text font-medium">
             full-stack architecture
           </strong>{" "}
-          across distributed remote teams.
+          across co-located and distributed teams in fintech, transportation,
+          aviation, Web3, and e-commerce.
         </p>
 
         <div className="animate-fade-up animate-fade-up-4 flex gap-4 flex-wrap">
@@ -75,6 +77,8 @@ export function Hero() {
 
       {/* Right */}
       <div className="flex flex-col justify-center px-6 py-14 md:px-12 md:py-20 bg-p-bg2">
+        <Globe />
+
         <div
           role="list"
           aria-label="Key metrics"

@@ -3,7 +3,7 @@ import { Tag } from "@/components/ui/tag";
 const timeline = [
   {
     period: "APR 2022 – PRESENT",
-    role: "Senior Software Engineer",
+    role: "Senior Software Engineer (Part-time Consulting)",
     company: "Amaly Legacy — Soulful Fundraising Platform",
   },
   {
@@ -184,24 +184,24 @@ export function About() {
           {/* Timeline */}
           <ol
             aria-label="Career timeline"
-            className="mt-10 flex flex-col border-l border-p-border2 list-none"
+            className="mt-10 flex flex-col border-l-2 border-p-border2 list-none"
           >
             {timeline.map((item) => (
               <li
                 key={item.period}
-                className="relative pl-7 py-5 border-b border-p-border hover:bg-white/1 transition-colors duration-200"
+                className="relative pl-7 py-6 border-b border-p-border hover:bg-white/1 transition-colors duration-200"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute -left-1 top-[1.6rem] size-1.75 rounded-full bg-p-accent border-2 border-p-bg"
+                  className="absolute -left-1.25 top-[1.8rem] size-2 rounded-full bg-p-accent border-2 border-p-bg"
                 />
-                <time className="font-mono text-[0.6rem] text-p-text3 tracking-widest mb-1 block">
+                <time className="font-mono text-[0.7rem] text-p-text3 tracking-widest mb-1.5 block">
                   {item.period}
                 </time>
-                <div className="text-[0.88rem] font-medium text-p-text mb-0.5">
+                <div className="text-[1.05rem] font-semibold text-p-text mb-1">
                   {item.role}
                 </div>
-                <div className="text-[0.78rem] text-p-text3">
+                <div className="text-[0.88rem] text-p-text2">
                   {item.company}
                 </div>
               </li>

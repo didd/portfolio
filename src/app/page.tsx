@@ -5,6 +5,7 @@ import { Projects } from "@/components/projects";
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
+import CompanyLogos from "@/components/company-logo-rail";
 
 const PAGE_SECTIONS = [
   { label: "Work", hash: "#projects", Component: Projects },
@@ -26,6 +27,7 @@ export default function Home() {
       />
       <main id="main-content">
         <Hero />
+        <CompanyLogos />
         {PAGE_SECTIONS.map(({ hash, Component }) => (
           <section key={hash} id={hash.slice(1)} className="scroll-mt-18.5">
             <Component />

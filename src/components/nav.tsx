@@ -72,10 +72,10 @@ export function Nav({ sections }: NavProps) {
       >
         <Link
           href="/"
-          className="font-serif text-[1.05rem] text-p-text no-underline"
+          className="inline-flex items-center justify-center size-8 border border-p-border2 font-mono text-[0.7rem] font-bold text-p-accent no-underline hover:border-p-accent transition-colors duration-200"
           aria-label="Go to homepage"
         >
-          Didd <span className="text-p-accent">Tuni</span>
+          DT
         </Link>
 
         {/* Desktop links */}

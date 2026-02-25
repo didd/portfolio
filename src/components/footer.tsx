@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer
@@ -10,11 +12,20 @@ export function Footer() {
       </div>
       <div className="font-mono text-[0.62rem] text-p-text3 tracking-[0.08em]">
         <a
-          href="mailto:didd.tuni@gmail.com"
+          href="mailto:contact@diddtuni.dev"
+          data-analytics="footer-email"
           className="text-p-text3 no-underline hover:text-p-accent transition-colors duration-200"
         >
-          didd.tuni@gmail.com
+          contact@diddtuni.dev
         </a>
+        {" · "}
+        <Link
+          href="/privacy"
+          data-analytics="footer-privacy"
+          className="text-p-text3 no-underline hover:text-p-accent transition-colors duration-200"
+        >
+          Privacy
+        </Link>
         {" · Built with Next.js + Tailwind"}
       </div>
     </footer>

@@ -3,7 +3,7 @@ import { Tag } from "@/components/ui/tag";
 const timeline = [
   {
     period: "APR 2022 – PRESENT",
-    role: "Senior Software Engineer",
+    role: "Senior Software Engineer (Part-time Consulting)",
     company: "Amaly Legacy — Soulful Fundraising Platform",
   },
   {
@@ -40,7 +40,7 @@ const timeline = [
 
 const skills: { category: string; items: string[] }[] = [
   {
-    category: "Frontend",
+    category: "Frontend & UI",
     items: [
       "React",
       "Next.js",
@@ -48,72 +48,43 @@ const skills: { category: string; items: string[] }[] = [
       "JavaScript (ES6+)",
       "Tailwind CSS",
       "shadcn/ui",
-      "TanStack Query",
-      "TanStack Router",
-      "TanStack Virtual",
+      "TanStack Query / Router / Virtual",
       "Apollo Client",
-      "Redux",
       "Zustand",
       "React Hook Form",
-      "Styled Components",
       "Accessibility (a11y)",
-      "Sass",
     ],
   },
   {
-    category: "Backend",
+    category: "Backend & Infrastructure",
     items: [
       "Node.js",
       "NestJS",
       "GraphQL",
-      "REST APIs",
       "PostgreSQL",
       "MongoDB",
-      "Redis",
       "Prisma",
-    ],
-  },
-  {
-    category: "DevOps & Infrastructure",
-    items: [
       "Docker",
-      "AWS EKS",
-      "AWS S3 / RDS",
+      "AWS EKS / S3 / RDS",
       "GCP",
       "GitHub Actions",
       "CircleCI",
-      "GitLab CI",
       "Nginx",
     ],
   },
   {
-    category: "Testing & Build",
+    category: "Architecture & Testing",
     items: [
-      "Jest",
-      "Cypress",
-      "Playwright",
-      "React Testing Library",
-      "Vitest",
-      "Nx",
-      "Turborepo",
-      "Webpack",
-      "Vite",
-    ],
-  },
-  {
-    category: "Architecture",
-    items: [
-      "Microfrontend / Module Federation",
+      "Microfrontend",
       "Domain-Driven Design",
       "Onion Architecture",
-      "Event Sourcing",
-      "Clean Architecture",
-      "Agile / Scrum",
+      "Nx Monorepos",
+      "Playwright",
+      "Cypress",
+      "Jest",
+      "Vitest",
+      "React Testing Library",
     ],
-  },
-  {
-    category: "Open Source",
-    items: ["AKASHA UI (33+ components)", "AKASHA Core (Web3 framework)"],
   },
 ];
 
@@ -123,7 +94,7 @@ export function About() {
       aria-labelledby="about-heading"
       className="border-b border-p-border"
     >
-      {/* Section header */}
+      
       <div className="px-6 md:px-12 max-w-350 mx-auto mb-2">
         <div className="flex items-baseline gap-6">
           <span
@@ -143,7 +114,7 @@ export function About() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 border-t border-p-border">
-        {/* Left — bio & timeline */}
+        
         <div className="px-6 py-14 md:px-12 md:py-24 lg:border-r border-p-border">
           <div aria-label="Bio">
             <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
@@ -181,27 +152,27 @@ export function About() {
             </p>
           </div>
 
-          {/* Timeline */}
+          
           <ol
             aria-label="Career timeline"
-            className="mt-10 flex flex-col border-l border-p-border2 list-none"
+            className="mt-10 flex flex-col border-l-2 border-p-border2 list-none"
           >
             {timeline.map((item) => (
               <li
                 key={item.period}
-                className="relative pl-7 py-5 border-b border-p-border hover:bg-white/1 transition-colors duration-200"
+                className="relative pl-7 py-6 border-b border-p-border hover:bg-white/1 transition-colors duration-200"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute -left-1 top-[1.6rem] size-1.75 rounded-full bg-p-accent border-2 border-p-bg"
+                  className="absolute -left-1.25 top-[1.8rem] size-2 rounded-full bg-p-accent border-2 border-p-bg"
                 />
-                <time className="font-mono text-[0.6rem] text-p-text3 tracking-widest mb-1 block">
+                <time className="font-mono text-[0.7rem] text-p-text3 tracking-widest mb-1.5 block">
                   {item.period}
                 </time>
-                <div className="text-[0.88rem] font-medium text-p-text mb-0.5">
+                <div className="text-[1.05rem] font-semibold text-p-text mb-1">
                   {item.role}
                 </div>
-                <div className="text-[0.78rem] text-p-text3">
+                <div className="text-[0.88rem] text-p-text2">
                   {item.company}
                 </div>
               </li>
@@ -209,7 +180,7 @@ export function About() {
           </ol>
         </div>
 
-        {/* Right — skills */}
+        
         <div
           aria-label="Technical skills"
           className="px-6 py-14 md:px-12 md:py-24 bg-p-bg2"

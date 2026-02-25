@@ -55,7 +55,7 @@ export function CodeBlock({ code, language = "tsx" }: CodeBlockProps) {
       }}
     >
       {({ tokens, getLineProps, getTokenProps }) => (
-        <pre className="m-0 p-0 bg-transparent text-p-text font-mono text-[0.938rem] leading-relaxed">
+        <pre className="m-0 bg-transparent p-0 font-mono text-[0.72rem] leading-relaxed text-p-text whitespace-pre-wrap wrap-break-word sm:text-[0.8rem]">
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ line })}>
               {line.map((token, key) => {

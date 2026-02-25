@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * Tracks the currently visible page section by scroll position and keeps
- * the URL hash in sync.
- *
- * A 1px-tall IntersectionObserver slice sits just below the nav bar. The
- * deepest section (by `ids` order) intersecting that slice is "active".
- * A second observer on <footer> forces the last section active when the
- * user reaches the bottom of the page.
- *
- * @param ids     Ordered element ids to spy on (top → bottom, document order).
- *                Pass a stable reference (module constant or `useMemo`) to
- *                avoid recreating observers on every render.
- * @param navRef  Ref to the sticky nav — its height offsets the observer so
- *                sections behind the nav are never falsely counted as visible.
- *                Falls back to 80px when not yet attached.
- *
- * @returns The active section id, or `null` when none is in the slice.
- *
- * @example
- * const activeId = useScrollSpy(["about", "pricing", "contact"], navRef);
- * // use activeId to highlight the matching nav link
+ * Tracks which page section is currently visible using a 1px IntersectionObserver
+ * slice below the sticky nav. Syncs the URL hash. Returns a lock function that
+ * disables spying during programmatic scroll (nav clicks).
  */
 export function useScrollSpy(
   ids: string[],
   navRef: React.RefObject<HTMLElement | null>,
 ) {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const lockedIdRef = useRef<string | null>(null);
+  const lockTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pickRef = useRef<() => void>(() => {});
+
+  const lock = useCallback((id: string) => {
+    lockedIdRef.current = id;
+    setActiveId(id);
+
+    if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
+
+    // Safety release after smooth scroll completes
+    lockTimeoutRef.current = setTimeout(() => {
+      lockedIdRef.current = null;
+      lockTimeoutRef.current = null;
+      pickRef.current();
+    }, 1200);
+  }, []);
 
   useEffect(() => {
     const elements = ids
@@ -35,27 +35,15 @@ export function useScrollSpy(
 
     if (!elements.length) return;
 
-    const navHeight = navRef.current?.offsetHeight ?? 80;
     const lastId = ids[ids.length - 1];
-    const footer = document.querySelector("footer");
+    let bottomVisible = false;
 
-    const indexById = new Map(ids.map((id, i) => [id, i]));
-    const inView = new Set<string>();
-    let footerVisible = false;
+    let sectionObserver: IntersectionObserver | null = null;
+    let triggerObserver: IntersectionObserver | null = null;
+    let bottomObserver: IntersectionObserver | null = null;
 
-    const pick = () => {
-      // Footer visible → force last section active
-      if (footerVisible) {
-        setActiveId(lastId);
-        const nextHash = `#${lastId}`;
-        if (window.location.hash !== nextHash) {
-          window.history.replaceState(null, "", nextHash);
-        }
-        return;
-      }
-
-      if (inView.size === 0) {
-        setActiveId(null);
+    const syncHash = (id: string | null) => {
+      if (!id) {
         if (window.location.hash) {
           window.history.replaceState(
             null,
@@ -65,68 +53,97 @@ export function useScrollSpy(
         }
         return;
       }
+      const nextHash = `#${id}`;
+      if (window.location.hash !== nextHash) {
+        window.history.replaceState(null, "", nextHash);
+      }
+    };
 
+    const pick = (navHeight: number) => {
+      // Locked — skip all spy logic
+      if (lockedIdRef.current) return;
+
+      if (bottomVisible) {
+        setActiveId(lastId);
+        syncHash(lastId);
+        return;
+      }
+
+      const sliceY = navHeight + 1;
       let bestId: string | null = null;
-      let bestIdx = -1;
-      for (const id of inView) {
-        const idx = indexById.get(id) ?? -1;
-        if (idx > bestIdx) {
-          bestIdx = idx;
-          bestId = id;
+
+      for (const el of elements) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= sliceY && rect.bottom > sliceY) {
+          bestId = el.id;
         }
       }
 
       setActiveId(bestId);
-      if (bestId) {
-        const nextHash = `#${bestId}`;
-        if (window.location.hash !== nextHash) {
-          window.history.replaceState(null, "", nextHash);
-        }
-      }
+      syncHash(bestId);
     };
 
-    // Section observer
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = entry.target.id;
-          if (!id) continue;
-          if (entry.isIntersecting) {
-            inView.add(id);
-          } else {
-            inView.delete(id);
-          }
-        }
-        pick();
-      },
-      {
-        root: null,
+    const getNavHeight = () => navRef.current?.offsetHeight ?? 80;
+
+    // Expose pick for the safety timeout
+    pickRef.current = () => pick(getNavHeight());
+
+    const buildObservers = (navHeight: number) => {
+      sectionObserver?.disconnect();
+      triggerObserver?.disconnect();
+      bottomObserver?.disconnect();
+
+      const onIntersect = () => pick(navHeight);
+
+      sectionObserver = new IntersectionObserver(onIntersect, {
         rootMargin: `-${navHeight}px 0px -${window.innerHeight - navHeight - 1}px 0px`,
         threshold: 0,
-      },
-    );
+      });
 
-    elements.forEach((el) => observer.observe(el));
+      triggerObserver = new IntersectionObserver(onIntersect, {
+        threshold: 0,
+      });
 
-    // Footer observer — when footer is visible, user is at the bottom
-    let footerObserver: IntersectionObserver | null = null;
+      elements.forEach((el) => {
+        sectionObserver?.observe(el);
+        triggerObserver?.observe(el);
+      });
 
-    if (footer) {
-      footerObserver = new IntersectionObserver(
+      bottomObserver = new IntersectionObserver(
         (entries) => {
-          footerVisible = entries[0]?.isIntersecting ?? false;
-          pick();
+          bottomVisible = entries[0]?.isIntersecting ?? false;
+          pick(navHeight);
         },
-        { root: null, threshold: 0 },
+        { threshold: 0 },
       );
-      footerObserver.observe(footer);
-    }
+      bottomObserver.observe(bottomSentinel);
+
+      pick(navHeight);
+    };
+
+    const bottomSentinel = document.createElement("div");
+    bottomSentinel.setAttribute("aria-hidden", "true");
+    bottomSentinel.style.cssText =
+      "position:relative;width:1px;height:1px;pointer-events:none;opacity:0";
+    document.body.appendChild(bottomSentinel);
+
+    const navEl = navRef.current;
+    const navResizeObserver = new ResizeObserver(() =>
+      buildObservers(getNavHeight()),
+    );
+    if (navEl) navResizeObserver.observe(navEl);
+
+    buildObservers(getNavHeight());
 
     return () => {
-      observer.disconnect();
-      footerObserver?.disconnect();
+      sectionObserver?.disconnect();
+      triggerObserver?.disconnect();
+      bottomObserver?.disconnect();
+      navResizeObserver.disconnect();
+      bottomSentinel.remove();
+      if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
     };
   }, [ids, navRef]);
 
-  return activeId;
+  return { activeId, lock };
 }

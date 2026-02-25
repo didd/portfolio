@@ -7,6 +7,7 @@ import { useCallback, useMemo, useRef, useState, useEffect } from "react";
 import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { NavSection } from "@/types/nav";
 import { Button } from "./ui/button";
+import { prefersReducedMotion } from "@/utils/reduce-motion";
 
 type NavProps = {
   sections: NavSection[];
@@ -21,7 +22,7 @@ export function Nav({ sections }: NavProps) {
     () => sections.map((s) => s.hash.slice(1)),
     [sections],
   );
-  const activeId = useScrollSpy(sectionIds, navRef);
+  const { activeId, lock } = useScrollSpy(sectionIds, navRef);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -47,9 +48,9 @@ export function Nav({ sections }: NavProps) {
       const el = document.querySelector(hash);
       if (!el) return;
 
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      lock(hash.slice(1));
+
+      const reduceMotion = prefersReducedMotion();
 
       el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
 
@@ -60,7 +61,7 @@ export function Nav({ sections }: NavProps) {
 
       window.history.pushState(null, "", hash);
     },
-    [],
+    [lock],
   );
 
   return (
@@ -72,13 +73,17 @@ export function Nav({ sections }: NavProps) {
       >
         <Link
           href="/"
-          className="font-serif text-[1.05rem] text-p-text no-underline"
-          aria-label="Go to homepage"
+          onClick={(e) => {
+            e.preventDefault();
+            const reduceMotion = prefersReducedMotion();
+            window.scrollTo({ behavior: reduceMotion ? "auto" : "smooth" });
+          }}
+          className="inline-flex items-center justify-center size-8 border border-p-border2 font-mono text-[0.7rem] font-bold text-p-accent no-underline hover:border-p-accent transition-colors duration-200"
+          aria-label="Scroll to top"
         >
-          Didd <span className="text-p-accent">Tuni</span>
+          DT
         </Link>
 
-        {/* Desktop links */}
         <ul className="hidden md:flex gap-10 list-none">
           {sections.map((item) => {
             const id = item.hash.slice(1);
@@ -90,6 +95,7 @@ export function Nav({ sections }: NavProps) {
                   href={item.hash}
                   onClick={(e) => handleNavClick(e, item.hash)}
                   aria-current={isActive ? "true" : undefined}
+                  data-analytics={`nav-${item.label.toLowerCase()}`}
                   className={`text-[0.73rem] font-medium tracking-widest uppercase no-underline transition-colors duration-200 ${
                     isActive
                       ? "text-p-accent"
@@ -111,6 +117,7 @@ export function Nav({ sections }: NavProps) {
             aria-pressed={theme === "dark"}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
             title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            data-analytics="theme-toggle"
           >
             {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
           </Button>
@@ -129,7 +136,6 @@ export function Nav({ sections }: NavProps) {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div
           id="mobile-menu"
@@ -163,6 +169,7 @@ export function Nav({ sections }: NavProps) {
                     href={item.hash}
                     onClick={(e) => handleNavClick(e, item.hash)}
                     aria-current={isActive ? "true" : undefined}
+                    data-analytics={`nav-mobile-${item.label.toLowerCase()}`}
                     className={`text-lg font-medium tracking-widest uppercase no-underline transition-colors duration-200 ${
                       isActive
                         ? "text-p-accent"

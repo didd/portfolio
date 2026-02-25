@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Main filled circle background in warm brown -->
+  <circle cx="128" cy="128" r="115" fill="#6b5010"/>
+  
+  <!-- Subtle inner accent detail -->
+  <circle cx="128" cy="128" r="115" fill="none" stroke="#8b7a3f" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Letters "DT" in light cream -->
+  <text x="128" y="135" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="110" font-weight="800" fill="#fafaf8" letter-spacing="-2" text-anchor="middle" dominant-baseline="central">DT</text>
+</svg>

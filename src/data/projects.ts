@@ -123,11 +123,11 @@ React.useLayoutEffect(() => {
     problem:
       "Nonprofits globally struggled to process multi-currency donations, manage legacy giving across jurisdictions, and connect donor analytics end-to-end. I architected the platform from the ground up — Onion Architecture backend, embeddable frontend widget, payment orchestration — establishing the technical foundation the team continues to build on.",
     impact: [
-      "Architected the full platform stack: Next.js, Nx, NestJS, AWS EKS — Onion Architecture with Domain / Use Case / Infrastructure layer separation across 62 modules",
-      "Orchestrated 5 payment gateways (Stripe, PayPal, Telr, Flutterwave, Crypto) with unified handling for one-time, recurring, refunds, and webhook reconciliation",
-      "Designed a FundraiseUp-style embeddable widget system with drag-and-drop configuration — full branding and payment customization, adopted by 7+ organizations",
-      "Wired end-to-end analytics and donor communication: Stripe, Brevo, GA, Meta Pixel, Plaid (KYC), Zapier",
-      "Set up GitHub Actions CI/CD for AWS ECR/EKS/S3 — deployment velocity increased 47%",
+      "Architect the full fundraising platform with drag-and-drop builder: Next.js, Nx, NestJS, AWS EKS — Nx Based Frontend Monorepo, Onion Architecture with Domain / Use Case / Infrastructure layer separation across 62 modules",
+      "Lead integration of 5 payment gateways (Stripe, PayPal, Flutterwave, Crypto) with unified handling for one-time, recurring, refunds, and webhook reconciliation",
+      "Built end-to-end analytics and donor communication: GA4, Meta Pixel, Google Ads",
+      "Build and maintain GitHub Actions CI/CD pipelines for AWS ECR/EKS/S3 — increases deployment velocity by 47% through caching and parallelization.",
+      "Drive technical leadership through architecture standards, code review culture, and quality gates across frontend and backend delivery.",
     ],
     stack: [
       "Next.js",

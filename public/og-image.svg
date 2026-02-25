@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      @import url('https://rsms.me/inter/inter.css');
+      .font-sans { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      .font-mono { font-family: "Fira Code", monospace; }
+    </style>
+  </defs>
+  
+  <!-- Background (portfolio light bg) -->
+  <rect width="1200" height="630" fill="#fafaf8"/>
+  
+  <!-- Accent decorative shapes -->
+  <circle cx="1000" cy="80" r="120" fill="#6b5010" opacity="0.08"/>
+  <circle cx="100" cy="550" r="100" fill="#1d4ed8" opacity="0.06"/>
+  
+  <!-- Accent line -->
+  <line x1="80" y1="130" x2="300" y2="130" stroke="#6b5010" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Main heading with Inter font -->
+  <text x="80" y="260" class="font-sans" font-size="120" font-weight="800" fill="#1a1917" letter-spacing="-1">
+    Didd Tuni
+  </text>
+  
+  <!-- Subheading -->
+  <text x="80" y="330" class="font-mono" font-size="28" fill="#6b5010" letter-spacing="2" font-weight="600">
+    SENIOR FRONTEND ENGINEER
+  </text>
+  
+  <!-- Description line 1 -->
+  <text x="80" y="400" class="font-sans" font-size="20" fill="#524e47" letter-spacing="0.3">
+    <tspan font-weight="600">React</tspan> • <tspan font-weight="600">Design Systems</tspan> • <tspan font-weight="600">Performance</tspan>
+  </text>
+  
+  <!-- Description line 2 -->
+  <text x="80" y="440" class="font-sans" font-size="20" fill="#5c5750">
+    15 years building high-performance applications
+  </text>
+  
+  <!-- Bottom accent bar -->
+  <rect x="80" y="540" width="80" height="4" fill="#6b5010" rx="2"/>
+  
+  <!-- Website URL -->
+  <text x="170" y="555" class="font-mono" font-size="16" fill="#5c5750" letter-spacing="0.5">
+    diddtuni.dev
+  </text>
+</svg>

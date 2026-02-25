@@ -169,8 +169,33 @@
     @apply bg-background text-foreground;
   }
   button:not([disabled]),
-  [role="button"]:not([disabled]) {
+  [role="button"]:not([disabled]),
+  a[href] {
     cursor: pointer;
+  }
+  .scene-tooltip,
+  .float-tooltip-kap {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+  }
+
+  .scene-tooltip::before,
+  .scene-tooltip::after,
+  .float-tooltip-kap::before,
+  .float-tooltip-kap::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .scene-tooltip > *,
+  .float-tooltip-kap > * {
+    margin: 0 !important;
   }
 }
 

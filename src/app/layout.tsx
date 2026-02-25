@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { playfairDisplay, inter, firaCode } from "./fonts";
 import "./globals.css";
+import { BackToTopButton } from "@/components/back-to-top";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 export const metadata: Metadata = {
   title: "Didd Tuni — Senior Frontend Engineer",
@@ -14,6 +16,39 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://diddtuni.dev",
+    title: "Didd Tuni — Senior Frontend Engineer",
+    description:
+      "React architecture • Design systems • Performance optimization • Full-stack development",
+    images: [
+      {
+        url: "https://diddtuni.dev/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Didd Tuni - Senior Frontend Engineer",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Didd Tuni — Senior Frontend Engineer",
+    description:
+      "React architecture • Design systems • Performance optimization • Full-stack development",
+    creator: "@didd_tuni",
+    images: ["https://diddtuni.dev/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -42,7 +77,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ErrorBoundary>
+          {children}
+          <BackToTopButton />
+        </ErrorBoundary>
+      </body>
     </html>
   );
 }

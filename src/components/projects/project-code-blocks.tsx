@@ -33,7 +33,7 @@ export function ProjectCodeBlocks({ projectId, code }: ProjectCodeBlocksProps) {
           <div key={block.label}>
             <div
               id={codeLabelId}
-              className="font-mono text-[0.6rem] text-p-text3 tracking-widest uppercase mb-2"
+              className="mb-2 font-mono text-[0.55rem] uppercase tracking-widest text-p-text3 sm:text-[0.6rem]"
             >
               {block.label}
             </div>
@@ -43,7 +43,7 @@ export function ProjectCodeBlocks({ projectId, code }: ProjectCodeBlocksProps) {
               aria-roledescription="code"
               aria-labelledby={codeLabelId}
               tabIndex={0}
-              className="bg-p-bg3 border border-p-border2 p-5 mb-6 overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-p-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-p-bg"
+              className="mb-6 min-w-0 overflow-hidden border border-p-border2 bg-p-bg3 p-3 sm:p-5"
             >
               <CodeBlock
                 code={block.content}

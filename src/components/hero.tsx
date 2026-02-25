@@ -101,7 +101,7 @@ export function Hero() {
 
         <div className="animate-fade-up animate-fade-up-1 relative min-h-[60vh] overflow-hidden bg-p-bg2 lg:min-h-0">
           <Image
-            src="/images/didd-tuni.jpg"
+            src="/images/didd-tuni.JPG"
             alt="Didd Tuni — Senior Frontend Engineer"
             fill
             priority

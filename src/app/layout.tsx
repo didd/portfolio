@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: "Didd Tuni — Senior Frontend Engineer",
   description:
     "Senior Frontend & Full Stack Engineer specializing in React architecture, design systems, and performance. 15 years building high-performance applications.",
+  authors: [{ name: "Didd Tuni", url: "https://diddtuni.dev" }],
+  creator: "Didd Tuni",
   icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },

@@ -2,6 +2,7 @@
 
 import { projects } from "@/data/projects";
 import { ProjectCard } from "./project-card";
+import { Globe } from "@/components/globe";
 
 export function Projects() {
   return (
@@ -36,6 +37,15 @@ export function Projects() {
             />
           );
         })}
+      </div>
+
+      <div className="border-b border-p-border bg-p-bg2">
+        <div className="mx-auto max-w-350 px-6 md:px-12 py-8">
+          <div className="mb-4 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-p-accent">
+            {"//"} Global Reach
+          </div>
+          <Globe />
+        </div>
       </div>
     </section>
   );

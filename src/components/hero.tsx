@@ -110,18 +110,7 @@ export function Hero() {
             className="object-cover object-[center_20%]"
           />
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-p-bg2 to-transparent" />
-
           <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.04)]" />
-
-          <div className="absolute bottom-5 left-6 right-6 z-10 flex items-center justify-between">
-            <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-p-text/60 drop-shadow-sm">
-              Addis Ababa · Remote
-            </span>
-            <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-p-text3/50 drop-shadow-sm">
-              Since 2011
-            </span>
-          </div>
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { HeroImage } from "./hero-image";
 
 const metrics = [
   {
@@ -99,19 +99,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="animate-fade-up animate-fade-up-1 relative min-h-[60vh] overflow-hidden bg-p-bg2 lg:min-h-0">
-          <Image
-            src="/images/didd-tuni.JPG"
-            alt="Didd Tuni — Senior Frontend Engineer"
-            fill
-            priority
-            quality={95}
-            sizes="(min-width: 1024px) 45vw, 100vw"
-            className="object-cover object-[center_20%]"
-          />
-
-          <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.04)]" />
-        </div>
+        <HeroImage />
       </section>
 
       <div

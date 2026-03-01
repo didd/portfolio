@@ -200,129 +200,129 @@
   .float-tooltip-kap > * {
     margin: 0 !important;
   }
-}
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  background: var(--p-bg);
-  color: var(--p-text);
-  font-weight: 400;
-  line-height: 1.6;
-  overflow-x: hidden;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
+  body {
+    background: var(--p-bg);
+    color: var(--p-text);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
-  z-index: 9998;
-}
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9998;
+  }
 
-.dark body::after {
-  opacity: 0.018;
-}
+  .dark body::after {
+    opacity: 0.018;
+  }
 
-@keyframes fadeUp {
-  from {
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes ping {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+    }
+  }
+
+  .animate-fade-up {
     opacity: 0;
-    transform: translateY(20px);
+    animation: fadeUp 0.7s forwards;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .animate-fade-up-1 {
+    animation-delay: 0.1s;
   }
-}
-
-@keyframes ping {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+  .animate-fade-up-2 {
+    animation-delay: 0.2s;
   }
-  50% {
-    box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+  .animate-fade-up-3 {
+    animation-delay: 0.35s;
   }
-}
+  .animate-fade-up-4 {
+    animation-delay: 0.5s;
+  }
 
-.animate-fade-up {
-  opacity: 0;
-  animation: fadeUp 0.7s forwards;
-}
-.animate-fade-up-1 {
-  animation-delay: 0.1s;
-}
-.animate-fade-up-2 {
-  animation-delay: 0.2s;
-}
-.animate-fade-up-3 {
-  animation-delay: 0.35s;
-}
-.animate-fade-up-4 {
-  animation-delay: 0.5s;
-}
+  .animate-ping-green {
+    animation: ping 2s infinite;
+  }
 
-.animate-ping-green {
-  animation: ping 2s infinite;
-}
+  .project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--p-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover::before {
+    transform: scaleX(1);
+  }
 
-.project-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--p-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-}
-.project-card:hover::before {
-  transform: scaleX(1);
-}
+  .code-kw {
+    color: #7c3aed;
+  }
+  .code-fn {
+    color: #1d4ed8;
+  }
+  .code-str {
+    color: #15803d;
+  }
+  .code-cm {
+    color: var(--p-text3);
+    font-style: italic;
+  }
+  .code-num {
+    color: var(--p-accent);
+  }
 
-.code-kw {
-  color: #7c3aed;
-}
-.code-fn {
-  color: #1d4ed8;
-}
-.code-str {
-  color: #15803d;
-}
-.code-cm {
-  color: var(--p-text3);
-  font-style: italic;
-}
-.code-num {
-  color: var(--p-accent);
-}
+  .dark .code-kw {
+    color: #c084fc;
+  }
+  .dark .code-fn {
+    color: #60a5fa;
+  }
+  .dark .code-str {
+    color: #4ade80;
+  }
 
-.dark .code-kw {
-  color: #c084fc;
-}
-.dark .code-fn {
-  color: #60a5fa;
-}
-.dark .code-str {
-  color: #4ade80;
-}
-
-nav,
-.project-card,
-footer {
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease;
+  nav,
+  .project-card,
+  footer {
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

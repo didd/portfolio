@@ -8,7 +8,7 @@ export function Footer() {
     >
       <div className="text-[0.72rem] text-p-text3">
         © 2026 <span className="text-p-accent">Didd Tuni</span> · Addis Ababa,
-        Ethiopia
+        Ethiopia & Dubai, United Arab Emirates
       </div>
       <div className="font-mono text-[0.62rem] text-p-text3 tracking-[0.08em]">
         <a

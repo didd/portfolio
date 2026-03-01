@@ -1,5 +1,4 @@
-export type BadgeVariant = "oss" | "enterprise" | "perf" | "full";
-
+export type BadgeVariant = "oss" | "enterprise" | "perf" | "full" | "advisory";
 export type ProjectLink = {
   label: string;
   href: string;

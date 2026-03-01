@@ -59,6 +59,7 @@
   --color-p-green: var(--p-green);
   --color-p-blue: var(--p-blue);
   --color-p-red: var(--p-red);
+  --color-p-purple: var(--p-purple);
 
   --font-serif: var(--font-playfair);
 }
@@ -111,6 +112,7 @@
   --p-green: #15803d;
   --p-blue: #1d4ed8;
   --p-red: #be123c;
+  --p-purple: #7c3aed;
 }
 
 .dark {
@@ -159,6 +161,7 @@
   --p-green: #4ade80;
   --p-blue: #60a5fa;
   --p-red: #fb7185;
+  --p-purple: #a78bfa;
 }
 
 @layer base {

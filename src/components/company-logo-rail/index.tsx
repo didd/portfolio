@@ -2,7 +2,7 @@ const companies = [
   { name: "TheoremOne", role: "Sr. Frontend Engineer" },
   { name: "BSI", role: "Sr. Frontend Engineer" },
   { name: "SOAX", role: "Full Stack Engineer" },
-  { name: "Amaly Legacy", role: "Sr. Software Engineer" },
+  { name: "Amaly Legacy", role: "Technical Lead → Advisor" },
   { name: "AKASHA Foundation", role: "Sr. Frontend Engineer" },
   { name: "Ethiopian Airlines", role: "Full Stack Engineer" },
 ] as const;

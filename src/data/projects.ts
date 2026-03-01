@@ -116,18 +116,18 @@ React.useLayoutEffect(() => {
     ],
   },
   {
-    id: "soulful",
+    id: "soulful-technical-lead",
     badge: { label: "Full Stack", variant: "full" },
     title: "Soulful — Global Fundraising Platform",
-    role: "Senior Software Engineer (Part-time consulting) · Apr 2022 – Present · Amaly Legacy",
+    role: "Technical Lead (Part-time consulting) · Apr 2022 – Dec 2025 · Amaly Legacy",
     problem:
-      "Nonprofits globally struggled to process multi-currency donations, manage legacy giving across jurisdictions, and connect donor analytics end-to-end. I architected the platform from the ground up — Onion Architecture backend, embeddable frontend widget, payment orchestration — establishing the technical foundation the team continues to build on.",
+      "Nonprofits globally struggled to process multi-currency donations, manage legacy giving across jurisdictions, and connect donor analytics end-to-end. I architected the platform from the ground up — Onion Architecture backend, embeddable frontend widgets, payment orchestration, and cloud delivery — establishing the technical foundation the team continues to build on.",
     impact: [
-      "Architect the full fundraising platform with drag-and-drop builder: Next.js, Nx, NestJS, AWS EKS — Nx Based Frontend Monorepo, Onion Architecture with Domain / Use Case / Infrastructure layer separation across 62 modules",
-      "Lead integration of 5 payment gateways (Stripe, PayPal, Flutterwave, Crypto) with unified handling for one-time, recurring, refunds, and webhook reconciliation",
-      "Built end-to-end analytics and donor communication: GA4, Meta Pixel, Google Ads",
-      "Build and maintain GitHub Actions CI/CD pipelines for AWS ECR/EKS/S3 — increases deployment velocity by 47% through caching and parallelization.",
-      "Drive technical leadership through architecture standards, code review culture, and quality gates across frontend and backend delivery.",
+      "Architected the platform end-to-end (Next.js, Nx, NestJS, GraphQL, AWS EKS) and set engineering standards across frontend and backend delivery",
+      "Designed and implemented clean Onion Architecture (Domain / Use Cases / Infrastructure separation) across 60+ modules, improving testability and long-term scalability",
+      "Led payment orchestration across Stripe, PayPal, Flutterwave, and Crypto with unified flows for one-time/recurring, refunds, and webhook reconciliation",
+      "Built embeddable fundraising widgets plus a schema-driven drag-and-drop configuration system (templates persisted in MongoDB; runtime config loading for external websites)",
+      "Owned CI/CD: GitHub Actions → AWS ECR/EKS/S3 with caching + parallelization, increasing deployment velocity by ~47%",
     ],
     stack: [
       "Next.js",

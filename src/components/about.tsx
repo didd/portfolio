@@ -2,14 +2,19 @@ import { Tag } from "@/components/ui/tag";
 
 const timeline = [
   {
-    period: "APR 2022 – PRESENT",
-    role: "Senior Software Engineer (Part-time Consulting)",
-    company: "Amaly Legacy — Soulful Fundraising Platform",
+    period: "JAN 2026 – PRESENT",
+    role: "Shareholder & Senior Technical Advisor (Part-time)",
+    company: "Soulful by Amaly Legacy · Dubai, UAE",
   },
   {
     period: "SEP 2022 – JAN 2026",
     role: "Senior Frontend Engineer",
     company: "AKASHA Foundation — Web3 / Open Source",
+  },
+  {
+    period: "APR 2022 – DEC 2025",
+    role: "Technical Lead (Part-time Consulting)",
+    company: "Amaly Legacy — Soulful Fundraising Platform",
   },
   {
     period: "OCT 2021 – JUL 2023",
@@ -94,7 +99,6 @@ export function About() {
       aria-labelledby="about-heading"
       className="border-b border-p-border"
     >
-      
       <div className="px-6 md:px-12 max-w-350 mx-auto mb-2">
         <div className="flex items-baseline gap-6">
           <span
@@ -114,7 +118,6 @@ export function About() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 border-t border-p-border">
-        
         <div className="px-6 py-14 md:px-12 md:py-24 lg:border-r border-p-border">
           <div aria-label="Bio">
             <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
@@ -124,7 +127,7 @@ export function About() {
               </strong>{" "}
               based in Addis Ababa, Ethiopia, operating globally via B2B
               contract through Didd Tuni LLC (U.S.-registered, Delaware). I work
-              across US/EU time zones with distributed teams.
+              across US/EU/UAE time zones with distributed teams.
             </p>
             <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
               My work spans{" "}
@@ -152,7 +155,6 @@ export function About() {
             </p>
           </div>
 
-          
           <ol
             aria-label="Career timeline"
             className="mt-10 flex flex-col border-l-2 border-p-border2 list-none"
@@ -180,7 +182,6 @@ export function About() {
           </ol>
         </div>
 
-        
         <div
           aria-label="Technical skills"
           className="px-6 py-14 md:px-12 md:py-24 bg-p-bg2"

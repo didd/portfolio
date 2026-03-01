@@ -13,6 +13,7 @@ const badgeColors: Record<BadgeVariant, string> = {
   enterprise: "text-p-blue",
   perf: "text-p-red",
   full: "text-p-accent",
+  advisory: "text-p-purple",
 };
 
 type ProjectCardProps = {

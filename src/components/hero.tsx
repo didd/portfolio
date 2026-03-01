@@ -94,7 +94,7 @@ export function Hero() {
             />
             <div className="text-[0.78rem] text-p-text2">
               <strong className="font-medium text-p-text">Available now</strong>{" "}
-              — Remote, US/EU time zones
+              — Remote, US/EU/UAE time zones
             </div>
           </div>
         </div>

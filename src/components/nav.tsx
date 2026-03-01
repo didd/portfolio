@@ -8,7 +8,6 @@ import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { NavSection } from "@/types/nav";
 import { Button } from "./ui/button";
 import { prefersReducedMotion } from "@/utils/reduce-motion";
-import { scrollToSection } from "@/utils/scroll-to-section";
 
 type NavProps = {
   sections: NavSection[];
@@ -23,7 +22,7 @@ export function Nav({ sections }: NavProps) {
     () => sections.map((s) => s.hash.slice(1)),
     [sections],
   );
-  const { activeId, lock } = useScrollSpy(sectionIds, navRef);
+  const { activeId, navigateToSection } = useScrollSpy(sectionIds, navRef);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -46,18 +45,8 @@ export function Nav({ sections }: NavProps) {
       e.preventDefault();
       setMobileOpen(false);
 
+      navigateToSection(hash.slice(1));
       const el = document.querySelector(hash);
-      if (!el) return;
-
-      lock(hash.slice(1));
-
-      const reduceMotion = prefersReducedMotion();
-      const navHeight = navRef.current?.offsetHeight ?? 80;
-
-      if (el instanceof HTMLElement) {
-        scrollToSection(el, navHeight, reduceMotion ? "auto" : "smooth");
-      }
-
       if (el instanceof HTMLElement) {
         el.setAttribute("tabindex", "-1");
         el.focus({ preventScroll: true });
@@ -65,7 +54,7 @@ export function Nav({ sections }: NavProps) {
 
       window.history.pushState(null, "", hash);
     },
-    [lock],
+    [navigateToSection],
   );
 
   return (

@@ -1,37 +1,41 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "@/utils/reduce-motion";
-import { scrollToSection } from "@/utils/scroll-to-section";
+import {
+  getScrollTopForSection,
+  scrollToSection,
+} from "@/utils/scroll-to-section";
 
 type ScrollSpyWindow = Window & {
   __portfolioInitialHash__?: string;
 };
 
+type NavigateToId = (
+  id: string,
+  behavior?: ScrollBehavior,
+  keepAligned?: boolean,
+) => void;
+
 /**
  * Tracks which page section is currently visible using a 1px IntersectionObserver
- * slice below the sticky nav. Syncs the URL hash. Returns a lock function that
- * disables spying during programmatic scroll (nav clicks).
+ * slice below the sticky nav. Syncs the URL hash and exposes a deterministic
+ * section navigation helper that temporarily suspends spying while scrolling.
  */
 export function useScrollSpy(
   ids: string[],
   navRef: React.RefObject<HTMLElement | null>,
 ) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const lockedIdRef = useRef<string | null>(null);
-  const lockTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pickRef = useRef<() => void>(() => {});
+  const navigatingIdRef = useRef<string | null>(null);
+  const alignmentFrameRef = useRef<number | null>(null);
+  const navigateRef = useRef<NavigateToId>(() => {});
 
-  const lock = useCallback((id: string) => {
-    lockedIdRef.current = id;
-    setActiveId(id);
+  const clearAlignmentWatch = useCallback(() => {
+    if (alignmentFrameRef.current) cancelAnimationFrame(alignmentFrameRef.current);
+    alignmentFrameRef.current = null;
+  }, []);
 
-    if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
-
-    // Safety release after smooth scroll completes
-    lockTimeoutRef.current = setTimeout(() => {
-      lockedIdRef.current = null;
-      lockTimeoutRef.current = null;
-      pickRef.current();
-    }, 1200);
+  const navigateToSection = useCallback((id: string) => {
+    navigateRef.current(id, prefersReducedMotion() ? "auto" : "smooth", false);
   }, []);
 
   useLayoutEffect(() => {
@@ -72,66 +76,87 @@ export function useScrollSpy(
       }
     };
 
-    const pick = (navHeight: number) => {
-      // Locked — skip all spy logic
-      if (lockedIdRef.current) return;
+    const getNavHeight = () => navRef.current?.offsetHeight ?? 80;
 
-      let nextId: string | null = null;
+    const getVisibleSectionId = (navHeight: number) => {
+      if (bottomVisible) return lastId;
 
-      if (bottomVisible) {
-        nextId = lastId;
-      } else {
-        const sliceY = navHeight + 1;
+      const sliceY = navHeight + 1;
 
-        for (const el of elements) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= sliceY && rect.bottom > sliceY) {
-            nextId = el.id;
-          }
+      for (let index = elements.length - 1; index >= 0; index -= 1) {
+        const el = elements[index];
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= sliceY && rect.bottom > sliceY) {
+          return el.id;
         }
       }
 
+      return null;
+    };
+
+    const syncActiveSection = (navHeight: number) => {
+      if (navigatingIdRef.current) return;
+
+      const nextId = getVisibleSectionId(navHeight);
       setActiveId(nextId);
       syncHash(nextId);
     };
 
-    const getNavHeight = () => navRef.current?.offsetHeight ?? 80;
+    const watchAlignment = (
+      id: string,
+      target: HTMLElement,
+      keepAligned: boolean,
+    ) => {
+      clearAlignmentWatch();
 
-    // Expose pick for the safety timeout
-    pickRef.current = () => pick(getNavHeight());
+      const settle = () => {
+        if (navigatingIdRef.current !== id) return;
 
-    const releaseLock = (navHeight: number) => {
-      if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
-      lockTimeoutRef.current = setTimeout(() => {
-        lockedIdRef.current = null;
-        lockTimeoutRef.current = null;
-        pick(navHeight);
-      }, 1200);
+        const currentNavHeight = getNavHeight();
+        const currentTargetTop = getScrollTopForSection(target, currentNavHeight);
+
+        if (keepAligned && Math.abs(window.scrollY - currentTargetTop) > 2) {
+          window.scrollTo({ top: currentTargetTop, behavior: "auto" });
+        }
+
+        if (Math.abs(window.scrollY - currentTargetTop) <= 2) {
+          navigatingIdRef.current = null;
+          alignmentFrameRef.current = null;
+          syncActiveSection(currentNavHeight);
+          return;
+        }
+
+        alignmentFrameRef.current = requestAnimationFrame(settle);
+      };
+
+      alignmentFrameRef.current = requestAnimationFrame(settle);
     };
 
-    const scrollToHash = (id: string) => {
+    const performNavigation: NavigateToId = (
+      id,
+      behavior = "auto",
+      keepAligned = false,
+    ) => {
       const target = document.getElementById(id);
       if (!target) return;
 
       const navHeight = getNavHeight();
-      lockedIdRef.current = id;
+      navigatingIdRef.current = id;
       setActiveId(id);
 
-      scrollToSection(
-        target,
-        navHeight,
-        prefersReducedMotion() ? "auto" : "smooth",
-      );
+      scrollToSection(target, navHeight, behavior);
 
-      releaseLock(navHeight);
+      watchAlignment(id, target, keepAligned);
     };
+
+    navigateRef.current = performNavigation;
 
     const buildObservers = (navHeight: number) => {
       sectionObserver?.disconnect();
       triggerObserver?.disconnect();
       bottomObserver?.disconnect();
 
-      const onIntersect = () => pick(navHeight);
+      const onIntersect = () => syncActiveSection(navHeight);
 
       sectionObserver = new IntersectionObserver(onIntersect, {
         rootMargin: `-${navHeight}px 0px -${window.innerHeight - navHeight - 1}px 0px`,
@@ -150,13 +175,13 @@ export function useScrollSpy(
       bottomObserver = new IntersectionObserver(
         (entries) => {
           bottomVisible = entries[0]?.isIntersecting ?? false;
-          pick(navHeight);
+          syncActiveSection(navHeight);
         },
         { threshold: 0 },
       );
       bottomObserver.observe(bottomSentinel);
 
-      pick(navHeight);
+      syncActiveSection(navHeight);
     };
 
     const bottomSentinel = document.createElement("div");
@@ -173,10 +198,10 @@ export function useScrollSpy(
 
     if (hasInitialHash) {
       const initialId = initialHashId;
-      lockedIdRef.current = initialHashId;
+      navigatingIdRef.current = initialHashId;
       initialScrollFrame = window.requestAnimationFrame(() => {
         syncHash(initialId);
-        scrollToHash(initialId);
+        performNavigation(initialId, "auto", true);
       });
     }
 
@@ -184,7 +209,7 @@ export function useScrollSpy(
       const nextId = window.location.hash.slice(1);
       if (!nextId || !ids.includes(nextId)) return;
 
-      scrollToHash(nextId);
+      performNavigation(nextId, "auto", true);
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -198,10 +223,11 @@ export function useScrollSpy(
       navResizeObserver.disconnect();
       window.removeEventListener("hashchange", handleHashChange);
       window.cancelAnimationFrame(initialScrollFrame);
+      navigateRef.current = () => {};
       bottomSentinel.remove();
-      if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
+      clearAlignmentWatch();
     };
-  }, [ids, navRef]);
+  }, [clearAlignmentWatch, ids, navRef]);
 
-  return { activeId, lock };
+  return { activeId, navigateToSection };
 }

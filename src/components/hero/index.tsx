@@ -30,9 +30,9 @@ export function Hero() {
     <>
       <section
         aria-labelledby="hero-heading"
-        className="grid min-h-screen grid-cols-1 border-b border-p-border pt-16 lg:grid-cols-[55%_45%]"
+        className="grid grid-cols-1 border-b border-p-border pt-16 xl:h-[calc(100svh-4.5rem)] xl:grid-cols-[55%_45%]"
       >
-        <div className="flex flex-col justify-center px-6 py-14 md:px-12 md:py-20 lg:border-r lg:border-p-border">
+        <div className="flex flex-col justify-center px-6 py-14 md:px-12 md:py-20 xl:h-full xl:border-r xl:border-p-border">
           <div className="animate-fade-up animate-fade-up-1 mb-7 flex items-center gap-3 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-p-accent">
             <span
               aria-hidden="true"

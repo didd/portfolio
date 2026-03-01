@@ -1,13 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const HERO_BLUR =
   "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAAAQAgCdASoKAAoAAUAmJZQCdAEXZyOp6RzoAP4Lyo1Yky9W8Q9DjHPuPjtaoKjPCckWPp/vF9Rv6gxdYAA=";
 
 export function HeroImage() {
   const [ready, setReady] = useState(false);
+
+  const imgRef = useCallback((img: HTMLImageElement | null) => {
+    if (img?.complete) setReady(true);
+  }, []);
 
   return (
     <div className="animate-fade-up animate-fade-up-1 relative min-h-[60vh] overflow-hidden bg-p-bg2 lg:min-h-0">
@@ -21,6 +25,7 @@ export function HeroImage() {
       />
 
       <Image
+        ref={imgRef}
         src="/images/didd-tuni.webp"
         alt="Didd Tuni — Senior Frontend Engineer"
         fill

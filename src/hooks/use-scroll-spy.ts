@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { prefersReducedMotion } from "@/utils/reduce-motion";
+import { scrollToSection } from "@/utils/scroll-to-section";
+
+type ScrollSpyWindow = Window & {
+  __portfolioInitialHash__?: string;
+};
 
 /**
  * Tracks which page section is currently visible using a 1px IntersectionObserver
@@ -28,7 +34,13 @@ export function useScrollSpy(
     }, 1200);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const scrollSpyWindow = window as ScrollSpyWindow;
+    const initialHashId =
+      scrollSpyWindow.__portfolioInitialHash__ ?? window.location.hash.slice(1);
+    const hasInitialHash = Boolean(initialHashId) && ids.includes(initialHashId);
+    delete scrollSpyWindow.__portfolioInitialHash__;
+
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -41,6 +53,7 @@ export function useScrollSpy(
     let sectionObserver: IntersectionObserver | null = null;
     let triggerObserver: IntersectionObserver | null = null;
     let bottomObserver: IntersectionObserver | null = null;
+    let initialScrollFrame = 0;
 
     const syncHash = (id: string | null) => {
       if (!id) {
@@ -63,30 +76,55 @@ export function useScrollSpy(
       // Locked — skip all spy logic
       if (lockedIdRef.current) return;
 
+      let nextId: string | null = null;
+
       if (bottomVisible) {
-        setActiveId(lastId);
-        syncHash(lastId);
-        return;
-      }
+        nextId = lastId;
+      } else {
+        const sliceY = navHeight + 1;
 
-      const sliceY = navHeight + 1;
-      let bestId: string | null = null;
-
-      for (const el of elements) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= sliceY && rect.bottom > sliceY) {
-          bestId = el.id;
+        for (const el of elements) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= sliceY && rect.bottom > sliceY) {
+            nextId = el.id;
+          }
         }
       }
 
-      setActiveId(bestId);
-      syncHash(bestId);
+      setActiveId(nextId);
+      syncHash(nextId);
     };
 
     const getNavHeight = () => navRef.current?.offsetHeight ?? 80;
 
     // Expose pick for the safety timeout
     pickRef.current = () => pick(getNavHeight());
+
+    const releaseLock = (navHeight: number) => {
+      if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
+      lockTimeoutRef.current = setTimeout(() => {
+        lockedIdRef.current = null;
+        lockTimeoutRef.current = null;
+        pick(navHeight);
+      }, 1200);
+    };
+
+    const scrollToHash = (id: string) => {
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      const navHeight = getNavHeight();
+      lockedIdRef.current = id;
+      setActiveId(id);
+
+      scrollToSection(
+        target,
+        navHeight,
+        prefersReducedMotion() ? "auto" : "smooth",
+      );
+
+      releaseLock(navHeight);
+    };
 
     const buildObservers = (navHeight: number) => {
       sectionObserver?.disconnect();
@@ -133,6 +171,24 @@ export function useScrollSpy(
     );
     if (navEl) navResizeObserver.observe(navEl);
 
+    if (hasInitialHash) {
+      const initialId = initialHashId;
+      lockedIdRef.current = initialHashId;
+      initialScrollFrame = window.requestAnimationFrame(() => {
+        syncHash(initialId);
+        scrollToHash(initialId);
+      });
+    }
+
+    const handleHashChange = () => {
+      const nextId = window.location.hash.slice(1);
+      if (!nextId || !ids.includes(nextId)) return;
+
+      scrollToHash(nextId);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+
     buildObservers(getNavHeight());
 
     return () => {
@@ -140,6 +196,8 @@ export function useScrollSpy(
       triggerObserver?.disconnect();
       bottomObserver?.disconnect();
       navResizeObserver.disconnect();
+      window.removeEventListener("hashchange", handleHashChange);
+      window.cancelAnimationFrame(initialScrollFrame);
       bottomSentinel.remove();
       if (lockTimeoutRef.current) clearTimeout(lockTimeoutRef.current);
     };

@@ -8,6 +8,7 @@ import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { NavSection } from "@/types/nav";
 import { Button } from "./ui/button";
 import { prefersReducedMotion } from "@/utils/reduce-motion";
+import { scrollToSection } from "@/utils/scroll-to-section";
 
 type NavProps = {
   sections: NavSection[];
@@ -51,8 +52,11 @@ export function Nav({ sections }: NavProps) {
       lock(hash.slice(1));
 
       const reduceMotion = prefersReducedMotion();
+      const navHeight = navRef.current?.offsetHeight ?? 80;
 
-      el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      if (el instanceof HTMLElement) {
+        scrollToSection(el, navHeight, reduceMotion ? "auto" : "smooth");
+      }
 
       if (el instanceof HTMLElement) {
         el.setAttribute("tabindex", "-1");
@@ -69,14 +73,17 @@ export function Nav({ sections }: NavProps) {
       <nav
         ref={navRef}
         aria-label="Primary navigation"
-        className="fixed top-0 left-0 right-0 z-200 flex items-center justify-between px-6 md:px-12 py-[1.2rem] bg-p-bg/90 backdrop-blur-lg border-b border-p-border"
+        className="fixed top-0 left-0 right-0 z-200 flex h-18 items-center justify-between border-b border-p-border bg-p-bg/90 px-6 backdrop-blur-lg md:px-12"
       >
         <Link
           href="/"
           onClick={(e) => {
             e.preventDefault();
             const reduceMotion = prefersReducedMotion();
-            window.scrollTo({ behavior: reduceMotion ? "auto" : "smooth" });
+            window.scrollTo({
+              top: 0,
+              behavior: reduceMotion ? "auto" : "smooth",
+            });
           }}
           className="inline-flex items-center justify-center size-8 border border-p-border2 font-mono text-[0.7rem] font-bold text-p-accent no-underline hover:border-p-accent transition-colors duration-200"
           aria-label="Scroll to top"

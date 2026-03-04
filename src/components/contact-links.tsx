@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Mail, Github, Linkedin } from "lucide-react";
+import { ArrowUpRight, Mail, Github, Linkedin, Copy, Check } from "lucide-react";
 import { Toast } from "@/components/ui/toast";
 import { trackEvent, trackLinkClick } from "@/lib/analytics";
 
@@ -118,7 +118,11 @@ export function ContactLinks() {
                     aria-label={`Copy ${row.label}: ${row.value}`}
                     className="inline-flex items-center justify-center rounded-md p-1 hover:bg-p-accent/10 transition-colors duration-200"
                   >
-                    <ArrowUpRight className="size-4 opacity-80 group-hover:opacity-100 transition-opacity" />
+                    {copiedValue === copyableValue ? (
+                      <Check className="size-4 opacity-100" />
+                    ) : (
+                      <Copy className="size-4 opacity-80 group-hover:opacity-100 transition-opacity" />
+                    )}
                   </button>
                 ) : row.href ? (
                   <a

@@ -53,8 +53,8 @@ export function Hero() {
           </h2>
 
           <p className="animate-fade-up animate-fade-up-3 mb-10 max-w-[60ch] text-base leading-[1.75] text-p-text2">
-            15 years building high-performance React/TypeScript applications
-            across Web3, enterprise SaaS, nonprofit tech, and fintech.
+            15 years of software engineering experience, with a 7-year focus on
+            building high-performance React/TypeScript applications.
             Specializing in{" "}
             <strong className="font-medium text-p-text">design systems</strong>,{" "}
             <strong className="font-medium text-p-text">

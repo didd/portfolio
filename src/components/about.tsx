@@ -125,7 +125,7 @@ export function About() {
               <strong className="text-p-text font-medium">
                 Senior Frontend &amp; Full Stack Engineer
               </strong>{" "}
-              based in Addis Ababa, Ethiopia, operating globally via B2B
+              operating globally via B2B
               contract through Didd Tuni LLC (U.S.-registered, Delaware). I work
               across US/EU/UAE time zones with distributed teams.
             </p>

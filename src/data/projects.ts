@@ -173,4 +173,31 @@ React.useLayoutEffect(() => {
       { label: "Architecture on request", href: "#contact", dim: true },
     ],
   },
+  {
+    id: "spine-editor",
+    badge: { label: "In Development", variant: "oss" },
+    title: "SpineEditor — Rich Text Editor Library",
+    role: "Founder & Lead Engineer · 2025 – Present · Open Source",
+    problem:
+      "Existing rich text editors force a choice between control and capability — lightweight libraries lack document-grade features, while full editors are monolithic and hard to extend. SpineEditor is an open-source library targeting Google Docs-grade editing with a headless, plugin-driven architecture that gives developers full control without sacrificing power.",
+    impact: [
+      "Designed a strict rendering pipeline: Browser → Substrate → Intent → Plan → Transaction → Apply/Map → Normalize → Commit → Renderer → DOM — separating editing intent from document mutation for predictable, testable behavior",
+      "Built on branded types for compile-time safety and discriminated unions for document node modeling — enforcing correctness at the type level rather than through runtime checks",
+      "Monorepo architecture (@spine-editor/core, @spine-editor/dom, @spine-editor/react) using pnpm workspaces, Turborepo, and Changesets for independent versioning and publishing",
+      "Testing strategy combines Vitest for unit/integration, fast-check for property-based testing, and Playwright for cross-browser E2E validation",
+    ],
+    stack: [
+      "TypeScript",
+      "React",
+      "pnpm Workspaces",
+      "Turborepo",
+      "Changesets",
+      "Vitest",
+      "fast-check",
+      "Playwright",
+    ],
+    links: [
+      { label: "In Development", href: "https://github.com/spine-editor" },
+    ],
+  },
 ] satisfies Project[];

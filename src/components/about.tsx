@@ -121,37 +121,34 @@ export function About() {
         <div className="px-6 py-14 md:px-12 md:py-24 lg:border-r border-p-border">
           <div aria-label="Bio">
             <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
-              I&apos;m a{" "}
-              <strong className="text-p-text font-medium">
-                Senior Frontend &amp; Full Stack Engineer
-              </strong>{" "}
-              operating globally via B2B
-              contract through Didd Tuni LLC (U.S.-registered, Delaware). I work
-              across US/EU/UAE time zones with distributed teams.
+              I operate globally via B2B contract through{" "}
+              <strong className="text-p-text font-medium">Didd Tuni LLC</strong>{" "}
+              (U.S.-registered, Delaware) — which means simple vendor contracts,
+              no international hiring complexity, and no payroll overhead. I
+              work across US/EU/UAE time zones with distributed, async-first
+              teams.
             </p>
             <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
-              My work spans{" "}
+              I work best as a{" "}
               <strong className="text-p-text font-medium">
-                open-source design systems
+                senior IC who thinks architecturally
               </strong>
-              ,{" "}
-              <strong className="text-p-text font-medium">
-                enterprise platforms
-              </strong>
-              , and{" "}
-              <strong className="text-p-text font-medium">
-                full-stack architecture
-              </strong>{" "}
-              — from authoring 33+ components adopted in production across 8
-              Web3 apps, to architecting a fundraising platform serving
-              nonprofits globally.
-            </p>
-            <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
-              I&apos;ve led engineering teams, mentored engineers, and scaled a
-              team from 0 to 8 as CTO at an early-stage startup. I care about{" "}
+              . I own problems end-to-end — from RFC to production — and I care
+              deeply about{" "}
               <strong className="text-p-text font-medium">accessibility</strong>
               , <strong className="text-p-text font-medium">performance</strong>
-              , and code that the next engineer can reason about.
+              , and code that the next engineer can reason about. I&apos;ve also
+              scaled an engineering team from 0 to 8 as CTO, but my focus is
+              hands-on delivery.
+            </p>
+            <p className="text-[0.95rem] text-p-text2 leading-[1.8] mb-5">
+              Currently building SpineEditor — an open-source, Google Docs-grade
+              rich text editor with a headless core and plugin architecture. I
+              use{" "}
+              <strong className="text-p-text font-medium">
+                AI-assisted tooling
+              </strong>{" "}
+              as part of my daily engineering workflow.
             </p>
           </div>
 

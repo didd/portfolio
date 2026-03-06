@@ -5,17 +5,22 @@ import { HeroImage } from "./hero-image";
 
 const metrics = [
   {
-    number: "15",
-    sup: "yr",
-    label: "Engineering",
-    sub: "// React / TypeScript",
+    number: "87",
+    sup: "%",
+    label: "CI/CD Faster",
+    sub: "// Pipeline Optimization",
   },
-  { number: "33", sup: "+", label: "UI Components", sub: "// Open Source" },
+  {
+    number: "33",
+    sup: "+",
+    label: "UI Components",
+    sub: "// WCAG · Open Source",
+  },
   {
     number: "1.2",
     sup: "s",
-    label: "LCP Improved",
-    sub: "// Core Web Vitals",
+    label: "LCP Reduced",
+    sub: "// Virtualized Feeds",
   },
   {
     number: "100",
@@ -27,10 +32,10 @@ const metrics = [
 
 export function Hero() {
   return (
-    <>
+    <div className="xl:flex xl:h-[calc(100svh)] xl:flex-col pt-16">
       <section
         aria-labelledby="hero-heading"
-        className="grid grid-cols-1 border-b border-p-border pt-16 xl:h-[calc(100svh-4.5rem)] xl:grid-cols-[55%_45%]"
+        className="grid grid-cols-1 border-b border-p-border xl:flex-1 xl:min-h-0 xl:grid-cols-[55%_45%]"
       >
         <div className="flex flex-col justify-center px-6 py-14 md:px-12 md:py-20 xl:h-full xl:border-r xl:border-p-border">
           <div className="animate-fade-up animate-fade-up-1 mb-7 flex items-center gap-3 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-p-accent">
@@ -49,23 +54,21 @@ export function Hero() {
           </h1>
 
           <h2 className="animate-fade-up animate-fade-up-2 mb-8 font-mono text-[clamp(1.1rem,1.8vw,1.4rem)] tracking-[0.04em] text-p-text2">
-            Senior Frontend Engineer
+            Senior Software Engineer
           </h2>
 
           <p className="animate-fade-up animate-fade-up-3 mb-10 max-w-[60ch] text-base leading-[1.75] text-p-text2">
-            15 years of software engineering experience, with a 7-year focus on
-            building high-performance React/TypeScript applications.
-            Specializing in{" "}
+            15 years building production software, with 7+ years focused on
+            React/TypeScript at scale. I ship{" "}
             <strong className="font-medium text-p-text">design systems</strong>,{" "}
             <strong className="font-medium text-p-text">
-              performance engineering
+              performance-critical frontends
             </strong>
             , and{" "}
             <strong className="font-medium text-p-text">
-              full-stack architecture
+              full-stack platforms
             </strong>{" "}
-            across co-located and distributed teams in fintech, transportation,
-            aviation, Web3, and e-commerce.
+            for distributed, async-first teams.
           </p>
 
           <div className="animate-fade-up animate-fade-up-4 flex flex-wrap gap-4">
@@ -94,7 +97,7 @@ export function Hero() {
             />
             <div className="text-[0.78rem] text-p-text2">
               <strong className="font-medium text-p-text">Available now</strong>{" "}
-              — Remote, US/EU/UAE time zones
+              — Remote via US-registered LLC, US/EU/UAE time zones
             </div>
           </div>
         </div>
@@ -105,32 +108,46 @@ export function Hero() {
       <div
         role="list"
         aria-label="Key metrics"
-        className="grid grid-cols-2 gap-px border-b border-p-border bg-p-border lg:grid-cols-4"
+        className="grid grid-cols-2 gap-px border-b border-p-border bg-p-border lg:grid-cols-4 xl:shrink-0"
       >
-        {metrics.map((m) => (
+        {metrics.map((m, i) => (
           <div
             key={m.label}
             role="listitem"
-            className="bg-p-bg2 px-6 py-7 transition-colors duration-200 hover:bg-p-bg3"
+            className="group relative bg-p-bg2 px-6 py-8 transition-colors duration-200 hover:bg-p-bg3"
           >
-            <div className="mb-0.5 font-serif text-[2.5rem] leading-none text-p-text">
+            <div
+              aria-hidden="true"
+              className="absolute top-0 left-0 right-0 h-[2px] bg-p-accent origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+            />
+
+            <div
+              aria-hidden="true"
+              className="mb-3 font-mono text-[0.55rem] text-p-text3 tracking-[0.15em] uppercase opacity-50"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </div>
+
+            <div className="mb-1 font-serif text-[2.8rem] leading-none text-p-text tracking-tight">
               {m.number}
-              <sup className="align-super text-[1.1rem] text-p-accent">
+              <sup className="ml-0.5 align-super text-[1rem] font-sans font-medium text-p-accent">
                 {m.sup}
               </sup>
             </div>
-            <div className="text-[0.7rem] uppercase tracking-[0.08em] text-p-text3">
+
+            <div className="mb-1.5 text-[0.7rem] font-medium uppercase tracking-[0.1em] text-p-text2">
               {m.label}
             </div>
+
             <div
               aria-hidden="true"
-              className="mt-1.5 font-mono text-[0.62rem] text-p-accent opacity-70"
+              className="font-mono text-[0.6rem] text-p-accent opacity-60"
             >
               {m.sub}
             </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
